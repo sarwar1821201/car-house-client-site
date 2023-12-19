@@ -32,7 +32,7 @@ const AuthProvider = ({children}) => {
    } , [] )
 
    const authInfo = {
-        user, loading,  signIn
+        user, loading,  signIn,createUser
    }
 
 
