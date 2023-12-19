@@ -1,12 +1,12 @@
 
 import React, { useContext } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { json, useLoaderData } from 'react-router-dom';
 import { AuthContext } from '../../provider/AuthProvider';
 
 const CheckOut = () => {
 
    const service= useLoaderData();
-   const {title,_id, price }=service;
+   const {title,_id, price,img }=service;
    const {user} = useContext(AuthContext)
 
    const handleCheckOut = (event) =>{
@@ -19,10 +19,27 @@ const CheckOut = () => {
       const order= {
          name,
         email,date,
-        service:_id,
+        img,
+        service: title,
+        service_id:_id,
         price:price
       }
       console.log(order)
+
+      fetch('http://localhost:5000/bookings' , {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(order)
+      } )
+      .then(res=> res.json() )
+      .then(data => {
+        console.log(data)
+        if(data.insertedId){
+            alert('order successfully confirmed')
+        }
+      })
    }
 
     return (
